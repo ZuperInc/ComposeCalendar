@@ -70,6 +70,7 @@ public fun SelectableCalendar(
   modifier: Modifier = Modifier,
   firstDayOfWeek: DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek,
   today: LocalDate = LocalDate.now(),
+  isFullScreen: Boolean = false,
   showAdjacentMonths: Boolean = true,
   horizontalSwipeEnabled: Boolean = true,
   calendarState: CalendarState<DynamicSelectionState> = rememberSelectableCalendarState(),
@@ -84,6 +85,7 @@ public fun SelectableCalendar(
     modifier = modifier,
     firstDayOfWeek = firstDayOfWeek,
     today = today,
+    isFullScreen = isFullScreen,
     showAdjacentMonths = showAdjacentMonths,
     horizontalSwipeEnabled = horizontalSwipeEnabled,
     calendarState = calendarState,
@@ -121,6 +123,7 @@ public fun StaticCalendar(
   modifier: Modifier = Modifier,
   firstDayOfWeek: DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek,
   today: LocalDate = LocalDate.now(),
+  isFullScreen: Boolean = false,
   showAdjacentMonths: Boolean = true,
   horizontalSwipeEnabled: Boolean = true,
   calendarState: CalendarState<EmptySelectionState> = rememberCalendarState(),
@@ -135,6 +138,7 @@ public fun StaticCalendar(
     modifier = modifier,
     firstDayOfWeek = firstDayOfWeek,
     today = today,
+    isFullScreen = isFullScreen,
     showAdjacentMonths = showAdjacentMonths,
     horizontalSwipeEnabled = horizontalSwipeEnabled,
     calendarState = calendarState,
@@ -168,6 +172,7 @@ public fun <T : SelectionState> Calendar(
   modifier: Modifier = Modifier,
   firstDayOfWeek: DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek,
   today: LocalDate = LocalDate.now(),
+  isFullScreen: Boolean = false,
   showAdjacentMonths: Boolean = true,
   horizontalSwipeEnabled: Boolean = true,
   dayContent: @Composable BoxScope.(DayState<T>) -> Unit = { DefaultDay(it) },
@@ -188,6 +193,7 @@ public fun <T : SelectionState> Calendar(
     monthHeader(calendarState.monthState)
     if (horizontalSwipeEnabled) {
       MonthPager(
+        isFullScreen = isFullScreen,
         showAdjacentMonths = showAdjacentMonths,
         monthState = calendarState.monthState,
         selectionState = calendarState.selectionState,
@@ -200,6 +206,7 @@ public fun <T : SelectionState> Calendar(
     } else {
       MonthContent(
         currentMonth = calendarState.monthState.currentMonth,
+        isFullScreen = isFullScreen,
         showAdjacentMonths = showAdjacentMonths,
         selectionState = calendarState.selectionState,
         today = today,

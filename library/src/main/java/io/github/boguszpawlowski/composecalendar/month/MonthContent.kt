@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -33,6 +34,7 @@ internal const val DaysOfWeek = 7
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun <T : SelectionState> MonthPager(
+  isFullScreen: Boolean,
   showAdjacentMonths: Boolean,
   selectionState: T,
   monthState: MonthState,
@@ -62,6 +64,7 @@ internal fun <T : SelectionState> MonthPager(
     verticalAlignment = Alignment.Top,
   ) { index ->
     MonthContent(
+      isFullScreen = isFullScreen,
       showAdjacentMonths = showAdjacentMonths,
       selectionState = selectionState,
       currentMonth = monthPagerState.getMonthForPage(index.toIndex()),
@@ -77,6 +80,7 @@ internal fun <T : SelectionState> MonthPager(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun <T : SelectionState> MonthContent(
+  isFullScreen: Boolean,
   showAdjacentMonths: Boolean,
   selectionState: T,
   currentMonth: YearMonth,
@@ -97,9 +101,13 @@ internal fun <T : SelectionState> MonthContent(
 
     monthContainer { paddingValues ->
       Column(
-        modifier = Modifier
-          .wrapContentWidth()
-          .padding(paddingValues)
+        modifier = if(!isFullScreen) {
+          Modifier
+            .wrapContentWidth()
+        } else {
+          Modifier
+            .fillMaxHeight()
+        }.padding(paddingValues)
       ) {
         currentMonth.getWeeks(
           includeAdjacentMonths = showAdjacentMonths,
@@ -107,6 +115,12 @@ internal fun <T : SelectionState> MonthContent(
           today = today,
         ).forEach { week ->
           WeekContent(
+            isFullScreen = isFullScreen,
+            modifier = if(!isFullScreen) {
+              Modifier
+            } else {
+              Modifier.weight(1f)
+            },
             week = week,
             selectionState = selectionState,
             dayContent = dayContent,

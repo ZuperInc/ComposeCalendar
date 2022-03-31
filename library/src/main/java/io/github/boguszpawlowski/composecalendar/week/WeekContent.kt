@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
@@ -13,15 +14,21 @@ import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 
 @Composable
 internal fun <T : SelectionState> WeekContent(
+  isFullScreen: Boolean,
   week: Week,
   selectionState: T,
   modifier: Modifier = Modifier,
-  dayContent: @Composable BoxScope.(DayState<T>) -> Unit
+  dayContent: @Composable BoxScope.(DayState<T>) -> Unit,
 ) {
   Row(
-    modifier = modifier
-      .fillMaxWidth()
-      .wrapContentHeight(),
+    modifier = if (!isFullScreen) {
+      modifier
+        .fillMaxWidth()
+        .wrapContentHeight()
+    } else {
+      modifier
+        .fillMaxSize()
+    },
     horizontalArrangement = if (week.isFirstWeekOfTheMonth) Arrangement.End else Arrangement.Start
   ) {
     week.days.forEachIndexed { index, day ->

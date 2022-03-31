@@ -22,13 +22,16 @@ import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
 fun SelectableCalendarSample() {
   val calendarState = rememberSelectableCalendarState()
 
-  Column(
-    Modifier.verticalScroll(rememberScrollState())
-  ) {
-    SelectableCalendar(calendarState = calendarState)
+//  Column(
+//    Modifier.verticalScroll(rememberScrollState())
+//  ) {
+    SelectableCalendar(
+      isFullScreen = true,
+      calendarState = calendarState
+    )
 
-    SelectionControls(selectionState = calendarState.selectionState)
-  }
+//    SelectionControls(selectionState = calendarState.selectionState)
+//  }
 }
 
 @Composable
