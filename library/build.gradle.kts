@@ -10,8 +10,8 @@ group = "com.github.ZuperInc"
 
 android {
 
-  defaultConfig.versionCode = 100
-  defaultConfig.versionName = "1.0.0"
+  defaultConfig.versionCode = 102
+  defaultConfig.versionName = "1.0.2"
 
   tasks.withType<KotlinCompile> {
     kotlinOptions {
@@ -42,13 +42,16 @@ dependencies {
   androidTestImplementation(ComposeTest.Core)
 }
 
-publishing {
-  publications {
-    create<MavenPublication>("maven") {
-      groupId = "com.github.ZuperInc"
-      artifactId = "ComposeCalendar"
-      version = "1.0.0"
-      from(components.findByName("release"))
+
+afterEvaluate {
+  publishing {
+    publications {
+      create<MavenPublication>("maven") {
+        groupId = "com.github.ZuperInc"
+        artifactId = "ComposeCalendar"
+        version = "1.0.2"
+        from(components["release"])
+      }
     }
   }
 }
