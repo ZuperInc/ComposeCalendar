@@ -38,6 +38,14 @@ dependencies {
   androidTestImplementation(ComposeTest.Core)
 }
 
+publishing {
+  publications {
+    create<MavenPublication>("maven") {
+      groupId = "com.github.ZuperInc"
+      artifactId = "ComposeCalendar"
+    }
+  }
+}
 //plugins.withId("com.vanniktech.maven.publish") {
 //  mavenPublish {
 //    sonatypeHost = SonatypeHost.S01
