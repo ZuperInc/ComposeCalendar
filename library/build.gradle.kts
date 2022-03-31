@@ -9,6 +9,10 @@ plugins {
 group = "com.github.ZuperInc"
 
 android {
+
+  defaultConfig.versionCode = 100
+  defaultConfig.versionName = "1.0.0"
+
   tasks.withType<KotlinCompile> {
     kotlinOptions {
       freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=strict"
@@ -43,9 +47,26 @@ publishing {
     create<MavenPublication>("maven") {
       groupId = "com.github.ZuperInc"
       artifactId = "ComposeCalendar"
+      version = "1.0.0"
+      from(components.findByName("release"))
     }
   }
 }
+
+//afterEvaluate {
+//
+//  publishing {
+//    publications {
+//      create<MavenPublication>("maven") {
+//        groupId = "com.github.ZuperInc"
+//        artifactId = "ComposeCalendar"
+//        version = "1.0.0"
+//        artifact(sourcesJar)
+//      }
+//    }
+//  }
+//}
+
 //plugins.withId("com.vanniktech.maven.publish") {
 //  mavenPublish {
 //    sonatypeHost = SonatypeHost.S01

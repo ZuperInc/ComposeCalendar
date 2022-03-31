@@ -23,7 +23,6 @@ buildscript {
     classpath(Kotlin.DokkaGradlePlugin)
     classpath(DetektLib.Plugin)
     classpath(GradleVersions.Plugin)
-    classpath(MavenPublish.GradlePlugin)
   }
 }
 

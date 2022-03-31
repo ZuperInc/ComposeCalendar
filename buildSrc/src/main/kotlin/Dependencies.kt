@@ -1,9 +1,4 @@
 @file:Suppress("ObjectPropertyNaming", "ClassNaming", "UnderscoresInNumericLiterals")
-object MavenPublish {
-  const val PluginId = "com.github.dcendents.android-maven"
-  const val GradlePlugin = "com.github.dcendents:android-maven-gradle-plugin:1.5"
-}
-
 object AndroidSdk {
   const val Min = 21
   const val Compile = 31
