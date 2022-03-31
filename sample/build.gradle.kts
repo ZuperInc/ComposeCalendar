@@ -1,4 +1,4 @@
-import org.ajoberstar.grgit.Grgit
+//import org.ajoberstar.grgit.Grgit
 
 plugins {
   id(Android.ApplicationPluginId)
@@ -6,11 +6,11 @@ plugins {
   id("common-android-plugin")
 }
 
-val commitsCount = Grgit.open(mapOf("dir" to rootDir)).log().size
+//val commitsCount = Grgit.open(mapOf("dir" to rootDir)).log().size
 
 android {
   defaultConfig {
-    versionCode = commitsCount
+    versionCode = 1
     versionName = "0.0.1"
   }
 }

@@ -3,12 +3,12 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id(DetektLib.PluginId) version DetektLib.Version
-  id(GradleVersions.PluginId) version GradleVersions.Version
-  id(GrGit.PluginId) version GrGit.Version
-  id(Shipkit.AutoVersion.PluginId) version Shipkit.AutoVersion.Version
-  id(Shipkit.Changelog.PluginId) version Shipkit.Changelog.Version
-  id(Shipkit.GithubRelease.PluginId) version Shipkit.GithubRelease.Version
+//  id(DetektLib.PluginId) version DetektLib.Version
+//  id(GradleVersions.PluginId) version GradleVersions.Version
+//  id(GrGit.PluginId) version GrGit.Version
+//  id(Shipkit.AutoVersion.PluginId) version Shipkit.AutoVersion.Version
+//  id(Shipkit.Changelog.PluginId) version Shipkit.Changelog.Version
+//  id(Shipkit.GithubRelease.PluginId) version Shipkit.GithubRelease.Version
 }
 
 buildscript {
@@ -31,6 +31,7 @@ allprojects {
   repositories {
     mavenCentral()
     google()
+    maven { url = java.net.URI("https://jitpack.io") }
   }
 
   tasks.withType<KotlinCompile> {
@@ -54,8 +55,8 @@ allprojects {
 }
 
 dependencies {
-  detekt(DetektLib.Formatting)
-  detekt(DetektLib.Cli)
+//  detekt(DetektLib.Formatting)
+//  detekt(DetektLib.Cli)
 }
 
 tasks {
@@ -80,25 +81,25 @@ tasks {
     description = "Allows to attach Detekt to the root project."
   }
 
-  withType<DependencyUpdatesTask> {
-    rejectVersionIf {
-      isNonStable(candidate.version) && !isNonStable(currentVersion)
-    }
-  }
-
-  withType(org.shipkit.changelog.GenerateChangelogTask::class) {
-    previousRevision = project.ext["shipkit-auto-version.previous-tag"] as String?
-    githubToken = System.getenv("GITHUB_TOKEN")
-    repository = "boguszpawlowski/composecalendar"
-  }
-
-  withType(org.shipkit.github.release.GithubReleaseTask::class) {
-    dependsOn(named("generateChangelog"))
-    repository = "boguszpawlowski/composecalendar"
-    changelog = named("generateChangelog").get().outputs.files.singleFile
-    githubToken = System.getenv("GITHUB_TOKEN")
-    newTagRevision = System.getenv("GITHUB_SHA")
-  }
+//  withType<DependencyUpdatesTask> {
+//    rejectVersionIf {
+//      isNonStable(candidate.version) && !isNonStable(currentVersion)
+//    }
+//  }
+//
+//  withType(org.shipkit.changelog.GenerateChangelogTask::class) {
+//    previousRevision = project.ext["shipkit-auto-version.previous-tag"] as String?
+//    githubToken = System.getenv("GITHUB_TOKEN")
+//    repository = "boguszpawlowski/composecalendar"
+//  }
+//
+//  withType(org.shipkit.github.release.GithubReleaseTask::class) {
+//    dependsOn(named("generateChangelog"))
+//    repository = "boguszpawlowski/composecalendar"
+//    changelog = named("generateChangelog").get().outputs.files.singleFile
+//    githubToken = System.getenv("GITHUB_TOKEN")
+//    newTagRevision = System.getenv("GITHUB_SHA")
+//  }
 }
 
 fun isNonStable(version: String): Boolean {
