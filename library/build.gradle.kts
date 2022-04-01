@@ -10,8 +10,8 @@ group = "com.github.ZuperInc"
 
 android {
 
-  defaultConfig.versionCode = 103
-  defaultConfig.versionName = "1.0.3"
+  defaultConfig.versionCode = 104
+  defaultConfig.versionName = "1.0.4"
 
   tasks.withType<KotlinCompile> {
     kotlinOptions {
@@ -49,7 +49,7 @@ afterEvaluate {
       create<MavenPublication>("maven") {
         groupId = "com.github.ZuperInc"
         artifactId = "ComposeCalendar"
-        version = "1.0.2"
+        version = "1.0.4"
         from(components["release"])
       }
     }

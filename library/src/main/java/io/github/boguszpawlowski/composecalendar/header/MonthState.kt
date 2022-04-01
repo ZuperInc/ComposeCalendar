@@ -17,13 +17,13 @@ public fun MonthState(
 public interface MonthState {
   public var currentMonth: YearMonth
 
-  public fun gePreviousMonth(): YearMonth
+  public fun getPreviousMonth(): YearMonth
 
   public companion object {
     @Suppress("FunctionName") // Factory function
     public fun Saver(): Saver<MonthState, String> = Saver(
       save = {
-        it.currentMonth.toString() + "##" + it.gePreviousMonth().toString()
+        it.currentMonth.toString() + "##" + it.getPreviousMonth().toString()
       },
       restore = {
         MonthState(
@@ -52,7 +52,7 @@ private class MonthStateImpl(
       _currentMonth = value
     }
 
-  override fun gePreviousMonth(): YearMonth {
+  override fun getPreviousMonth(): YearMonth {
     return _previousMonth
   }
 }
