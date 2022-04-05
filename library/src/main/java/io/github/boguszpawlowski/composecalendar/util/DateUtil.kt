@@ -1,7 +1,7 @@
 package io.github.boguszpawlowski.composecalendar.util
 
-import java.time.DayOfWeek
-import java.time.LocalDate
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.LocalDate
 
 internal fun Collection<LocalDate>.addOrRemoveIfExists(date: LocalDate) =
   if (contains(date)) {

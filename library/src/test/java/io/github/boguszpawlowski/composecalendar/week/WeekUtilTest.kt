@@ -7,11 +7,11 @@ import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import java.time.DayOfWeek.MONDAY
-import java.time.DayOfWeek.SATURDAY
-import java.time.DayOfWeek.SUNDAY
-import java.time.LocalDate
-import java.time.YearMonth
+import org.threeten.bp.DayOfWeek.MONDAY
+import org.threeten.bp.DayOfWeek.SATURDAY
+import org.threeten.bp.DayOfWeek.SUNDAY
+import org.threeten.bp.LocalDate
+import org.threeten.bp.YearMonth
 
 internal class WeekUtilTest : ShouldSpec({
 

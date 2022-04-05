@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.runningFold
-import java.time.YearMonth
+import org.threeten.bp.YearMonth
 
 internal const val PageCount = 3
 

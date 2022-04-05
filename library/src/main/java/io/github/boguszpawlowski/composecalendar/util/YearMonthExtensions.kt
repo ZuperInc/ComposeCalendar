@@ -1,6 +1,6 @@
 package io.github.boguszpawlowski.composecalendar.util
 
-import java.time.YearMonth
+import org.threeten.bp.YearMonth
 
 internal operator fun YearMonth.dec() = this.minusMonths(1)
 

@@ -2,9 +2,9 @@ package io.github.boguszpawlowski.composecalendar.week
 
 import io.github.boguszpawlowski.composecalendar.day.WeekDay
 import io.github.boguszpawlowski.composecalendar.util.daysUntil
-import java.time.DayOfWeek
-import java.time.LocalDate
-import java.time.YearMonth
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.LocalDate
+import org.threeten.bp.YearMonth
 
 private const val DaysInAWeek = 7
 

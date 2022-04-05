@@ -1,7 +1,7 @@
 package io.github.boguszpawlowski.composecalendar.selection
 
 import io.github.boguszpawlowski.composecalendar.util.addOrRemoveIfExists
-import java.time.LocalDate
+import org.threeten.bp.LocalDate
 
 /**
  * Helper class for calculating new selection, when using a [DynamicSelectionState] approach.

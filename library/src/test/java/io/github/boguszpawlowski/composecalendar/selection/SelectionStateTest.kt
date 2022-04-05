@@ -6,8 +6,8 @@ import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
-import java.time.LocalDate
-import java.time.Month.APRIL
+import org.threeten.bp.LocalDate
+import org.threeten.bp.Month.APRIL
 
 internal class SelectionStateTest : ShouldSpec({
 

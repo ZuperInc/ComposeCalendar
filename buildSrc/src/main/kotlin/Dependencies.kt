@@ -134,6 +134,12 @@ object Kotest {
   const val Assertions = "io.kotest:kotest-assertions-core-jvm:$Version"
 }
 
+object Jakewharton {
+  private const val Version = "1.4.0"
+
+  const val Threetenabp = "com.jakewharton.threetenabp:threetenabp:$Version"
+}
+
 object ComposeTest {
   const val Core = "androidx.compose.ui:ui-test-junit4:${Compose.Version}"
   const val Manifest = "androidx.compose.ui:ui-test-manifest:${Compose.Version}"

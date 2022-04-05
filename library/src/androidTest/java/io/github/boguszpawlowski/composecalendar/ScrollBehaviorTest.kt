@@ -9,7 +9,7 @@ import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
 import org.junit.Rule
 import org.junit.Test
-import java.time.YearMonth
+import org.threeten.bp.YearMonth
 
 internal class ScrollBehaviorTest {
 

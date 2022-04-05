@@ -32,6 +32,7 @@ dependencies {
   implementation(Compose.Foundation)
   implementation(Compose.FoundationLayout)
   implementation(Compose.Material)
+  implementation(Jakewharton.Threetenabp)
   implementation(Timber.Core)
 
   testImplementation(Kotest.Assertions)

@@ -1,6 +1,6 @@
 package io.github.boguszpawlowski.composecalendar.selection
 
-import java.time.LocalDate
+import org.threeten.bp.LocalDate
 
 internal fun Collection<LocalDate>.startOrMax() = firstOrNull() ?: LocalDate.MAX
 

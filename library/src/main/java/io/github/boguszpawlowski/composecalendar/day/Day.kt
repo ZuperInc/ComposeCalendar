@@ -1,6 +1,6 @@
 package io.github.boguszpawlowski.composecalendar.day
 
-import java.time.LocalDate
+import org.threeten.bp.LocalDate
 
 /**
  * Container for basic info about the displayed day

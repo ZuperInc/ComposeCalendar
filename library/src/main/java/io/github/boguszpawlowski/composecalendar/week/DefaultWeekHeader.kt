@@ -6,8 +6,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import java.time.DayOfWeek
-import java.time.format.TextStyle.SHORT
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.format.TextStyle.SHORT
 import java.util.Locale
 
 @Composable

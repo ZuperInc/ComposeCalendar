@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import io.github.boguszpawlowski.composecalendar.StaticCalendar
 import io.github.boguszpawlowski.composecalendar.day.NonSelectableDayState
 import io.github.boguszpawlowski.composecalendar.header.MonthState
-import java.time.DayOfWeek
-import java.time.DayOfWeek.SUNDAY
-import java.time.format.TextStyle.NARROW
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.DayOfWeek.SUNDAY
+import org.threeten.bp.format.TextStyle.NARROW
 import java.util.Locale
 
 @Composable

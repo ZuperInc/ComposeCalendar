@@ -39,7 +39,7 @@ import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
 import io.github.boguszpawlowski.composecalendar.selection.SelectionMode.Period
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import java.time.LocalDate
+import org.threeten.bp.LocalDate
 
 /**
  * In this sample, calendar composable is wired with an ViewModel. It's purpose is to show how to use
