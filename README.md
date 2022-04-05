@@ -3,19 +3,16 @@
 Compose Calendar is a composable handling all complexity of rendering calendar component and date selection.
 Due to flexibility provided by slot API's, you can decide how the calendar will look like, the library will handle proper calendar elements arrangement and it's state.
 
-![Github Actions](https://github.com/boguszpawlowski/composecalendar/actions/workflows/check.yml/badge.svg?branch=main)
-[<img src="https://img.shields.io/maven-central/v/io.github.boguszpawlowski.composecalendar/composecalendar.svg?label=release%20version"/>](https://search.maven.org/search?q=g:io.github.boguszpawlowski.composecalendar)
-[<img src="https://img.shields.io/nexus/s/https/s01.oss.sonatype.org/io.github.boguszpawlowski.composecalendar/composecalendar.svg?label=snapshot%20version"/>](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/boguszpawlowski/composecalendar/)
-[<img src="https://androidweekly.net/issues/issue-501/badge"/>](https://androidweekly.net/issues/issue-501/)
+[![Latest version](https://jitpack.io/v/ZuperInc/ComposeCalendar.svg)](https://jitpack.io/#ZuperInc/ComposeCalendar)
+
 ## Setup
-Library is available on Maven Central repository.
+Library is available on jitpack.
 ```kotlin
   // module-level build.gradle
   dependecies {
-    implementation "io.github.boguszpawlowski.composecalendar:composecalendar:<latest-version>"
+    implementation implementation "com.github.ZuperInc:ComposeCalendar:<Latest-Version>"
   }
 ```
-Snapshots are available on [Sonatype’s snapshots repository](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/boguszpawlowski/composecalendar/).
 
 ## Supported features
 - Selection (single, multiple or a range of days)
@@ -27,7 +24,13 @@ Snapshots are available on [Sonatype’s snapshots repository](https://s01.oss.s
 - Horizontal swipe for changing a current month
 
 ## Basic Usage
-
+Initialize the timezone information in your Application.onCreate() method
+```kotlin
+  override fun onCreate() {
+    super.onCreate()
+    AndroidThreeTen.init(this)
+  }
+```
 ### Static calendar
 To show the basic version of the calendar, without any kind of selection mechanism, you can simply use the `StaticCalendar` composable without passing any parameters:
 ```kotlin
