@@ -20,7 +20,7 @@ class CommonAndroidPlugin : Plugin<Project> {
       compileOptions {
         sourceCompatibility = VERSION_1_8
         targetCompatibility = VERSION_1_8
-        isCoreLibraryDesugaringEnabled = true
+        isCoreLibraryDesugaringEnabled = false
       }
 
       buildFeatures.compose = true
@@ -29,7 +29,7 @@ class CommonAndroidPlugin : Plugin<Project> {
         kotlinCompilerExtensionVersion = Compose.Version
       }
 
-      target.dependencies.add("coreLibraryDesugaring", Kotlin.DesugarJdkLibs)
+//      target.dependencies.add("coreLibraryDesugaring", Kotlin.DesugarJdkLibs)
     }
   }
 }

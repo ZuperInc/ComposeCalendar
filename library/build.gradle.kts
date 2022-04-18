@@ -10,8 +10,8 @@ group = "com.github.ZuperInc"
 
 android {
 
-  defaultConfig.versionCode = 105
-  defaultConfig.versionName = "1.0.5"
+  defaultConfig.versionCode = 106
+  defaultConfig.versionName = "1.0.6"
 
   tasks.withType<KotlinCompile> {
     kotlinOptions {
