@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -182,7 +183,7 @@ public fun <T : SelectionState> Calendar(
     Box { content(PaddingValues()) }
   },
 ) {
-
+  val initialMonth = remember { calendarState.monthState.currentMonth }
   val daysOfWeek = remember(firstDayOfWeek) {
     DayOfWeek.values().rotateRight(DaysOfWeek - firstDayOfWeek.ordinal)
   }
@@ -193,6 +194,7 @@ public fun <T : SelectionState> Calendar(
     monthHeader(calendarState.monthState)
     if (horizontalSwipeEnabled) {
       MonthPager(
+        initialMonth = initialMonth,
         isFullScreen = isFullScreen,
         showAdjacentMonths = showAdjacentMonths,
         monthState = calendarState.monthState,
@@ -205,6 +207,7 @@ public fun <T : SelectionState> Calendar(
       )
     } else {
       MonthContent(
+        modifier = Modifier.fillMaxWidth(),
         currentMonth = calendarState.monthState.currentMonth,
         isFullScreen = isFullScreen,
         showAdjacentMonths = showAdjacentMonths,
@@ -225,23 +228,21 @@ public fun <T : SelectionState> Calendar(
  * @param initialMonth initially rendered month
  * @param initialSelection initial selection of the composable
  * @param initialSelectionMode initial mode of the selection
- * @param onSelectionChanged callback for side effects triggered when the selection state changes
+ * @param confirmSelectionChange callback for optional side-effects handling and vetoing the state change
  */
 @Composable
 public fun rememberSelectableCalendarState(
   initialMonth: YearMonth = YearMonth.now(),
   initialSelection: List<LocalDate> = emptyList(),
   initialSelectionMode: SelectionMode = SelectionMode.Single,
-  onSelectionChanged: (List<LocalDate>) -> Unit = {},
+  confirmSelectionChange: (newValue: List<LocalDate>) -> Boolean = { true },
   monthState: MonthState = rememberSaveable(saver = MonthState.Saver()) {
     MonthState(initialMonth = initialMonth)
   },
   selectionState: DynamicSelectionState = rememberSaveable(
-    saver = DynamicSelectionState.Saver(
-      onSelectionChanged
-    )
+    saver = DynamicSelectionState.Saver(confirmSelectionChange),
   ) {
-    DynamicSelectionState(onSelectionChanged, initialSelection, initialSelectionMode)
+    DynamicSelectionState(confirmSelectionChange, initialSelection, initialSelectionMode)
   },
 ): CalendarState<DynamicSelectionState> = remember { CalendarState(monthState, selectionState) }
 

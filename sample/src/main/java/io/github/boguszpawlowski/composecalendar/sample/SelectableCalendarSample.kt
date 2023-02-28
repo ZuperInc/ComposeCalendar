@@ -26,7 +26,7 @@ fun SelectableCalendarSample() {
 //    Modifier.verticalScroll(rememberScrollState())
 //  ) {
     SelectableCalendar(
-      isFullScreen = true,
+      isFullScreen = false,
       calendarState = calendarState
     )
 
