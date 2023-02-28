@@ -23,10 +23,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.github.boguszpawlowski.composecalendar.BuildConfig
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 
 class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    if (BuildConfig.DEBUG) {
+      Timber.plant(DebugTree())
+    }
     setContent {
       MainScreen()
     }
@@ -50,6 +56,7 @@ fun MainScreen() {
         composable("components") { CustomComponentsSample() }
         composable("custom_selection") { CustomSelectionSample() }
         composable("viewmodel") { ViewModelSample() }
+//        composable("kotlinx_datetime") { KotlinXDateTimeSample() }
       }
     }
   }
@@ -84,6 +91,11 @@ fun MainMenu(navController: NavController) {
 
     Button(onClick = { navController.navigate("viewmodel") }) {
       Text(text = "ViewModel")
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Button(onClick = { navController.navigate("kotlinx_datetime") }) {
+      Text(text = "Kotlinx DateTime")
     }
   }
 }
