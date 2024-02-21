@@ -6,7 +6,6 @@ plugins {
   id("common-android-plugin")
   id("maven-publish")
 }
-group = "com.github.ZuperInc"
 
 android {
   namespace = "com.boguszpawlowski.composecalendar"
@@ -40,37 +39,26 @@ dependencies {
   testImplementation(Kotlin.Reflect)
 }
 
+publishing {
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = uri("https://maven.pkg.github.com/ZuperInc/ComposeCalendar")
+      credentials {
+        username = System.getenv("GITHUB_ACTOR")
+        password = System.getenv("GITHUB_TOKEN")
+      }
+    }
+  }
 
-afterEvaluate {
-  publishing {
-    publications {
-      create<MavenPublication>("maven") {
-        groupId = "com.github.ZuperInc"
-        artifactId = "ComposeCalendar"
-        version = "1.0.5"
+  publications {
+    create<MavenPublication>("maven") {
+      groupId = "co.zuper.android"
+      artifactId = "compose-calendar"
+      version = Versioning.SDK_VERSION
+      afterEvaluate {
         from(components["release"])
       }
     }
   }
 }
-
-//afterEvaluate {
-//
-//  publishing {
-//    publications {
-//      create<MavenPublication>("maven") {
-//        groupId = "com.github.ZuperInc"
-//        artifactId = "ComposeCalendar"
-//        version = "1.0.0"
-//        artifact(sourcesJar)
-//      }
-//    }
-//  }
-//}
-
-//plugins.withId("com.vanniktech.maven.publish") {
-//  mavenPublish {
-//    sonatypeHost = SonatypeHost.S01
-//    releaseSigningEnabled = true
-//  }
-//}
