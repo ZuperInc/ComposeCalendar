@@ -8,7 +8,6 @@ import io.kotest.data.forAll
 import io.kotest.data.table
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.DateTimeUnit
-import java.time.DateTimeException
 
 internal class YearMonthTest : ShouldSpec({
 

@@ -1,4 +1,4 @@
-name: Publish Snaphot
+name: Publish Snapshot
 on:
   workflow_dispatch:
   push:
@@ -7,16 +7,16 @@ on:
 
 jobs:
   deploy-maven-snapshot:
-    name: Deploy To Maven Snaphot
+    name: Deploy To Maven Snapshot
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
-          fetch-depth: '0'
+          fetch-depth: 0
 
       - name: Cache Gradle
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches/
@@ -24,10 +24,11 @@ jobs:
           key: cache-gradle-${{ hashFiles('**/*.gradle', '**/gradle-wrapper.properties') }}
           restore-keys: cache-gradle-
 
-      - name: Setup Java 15
-        uses: actions/setup-java@v1
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
         with:
-          java-version: '15'
+          distribution: zulu
+          java-version: 17
 
       - name: Deploy Snapshot
         env:

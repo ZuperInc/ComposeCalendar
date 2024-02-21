@@ -18,16 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import org.threeten.bp.format.TextStyle.FULL
+import org.threeten.bp.format.TextStyle
 import java.util.Locale
 
 /**
- * Default implementation of month header, shows current month and year, as well as
+ * Default implementation of week header, shows current month and year, as well as
  * 2 arrows for changing currently showed month
  */
 @Composable
-public fun DefaultMonthHeader(
-  monthState: MonthState,
+@Suppress("LongMethod")
+public fun DefaultWeekHeader(
+  weekState: WeekState,
   modifier: Modifier = Modifier,
 ) {
   Row(
@@ -35,29 +36,32 @@ public fun DefaultMonthHeader(
     horizontalArrangement = Arrangement.Center,
     verticalAlignment = Alignment.CenterVertically,
   ) {
-    DecrementButton(monthState = monthState)
+    DecrementButton(weekState = weekState)
     Text(
-      modifier = Modifier.testTag("MonthLabel"),
-      text = monthState.currentMonth.month
-        .getDisplayName(FULL, Locale.getDefault())
+      modifier = Modifier.testTag("WeekLabel"),
+      text = weekState.currentWeek.yearMonth.month
+        .getDisplayName(TextStyle.FULL, Locale.getDefault())
         .lowercase()
         .replaceFirstChar { it.titlecase() },
       style = MaterialTheme.typography.h4,
     )
     Spacer(modifier = Modifier.width(8.dp))
-    Text(text = monthState.currentMonth.year.toString(), style = MaterialTheme.typography.h4)
-    IncrementButton(monthState = monthState)
+    Text(
+      text = weekState.currentWeek.yearMonth.year.toString(),
+      style = MaterialTheme.typography.h4
+    )
+    IncrementButton(monthState = weekState)
   }
 }
 
 @Composable
 private fun DecrementButton(
-  monthState: MonthState,
+  weekState: WeekState,
 ) {
   IconButton(
     modifier = Modifier.testTag("Decrement"),
-    enabled = monthState.currentMonth > monthState.minMonth,
-    onClick = { monthState.currentMonth = monthState.currentMonth.minusMonths(1) }
+    enabled = weekState.currentWeek > weekState.minWeek,
+    onClick = { weekState.currentWeek = weekState.currentWeek.dec() }
   ) {
     Image(
       imageVector = Icons.Default.KeyboardArrowLeft,
@@ -69,12 +73,12 @@ private fun DecrementButton(
 
 @Composable
 private fun IncrementButton(
-  monthState: MonthState,
+  monthState: WeekState,
 ) {
   IconButton(
     modifier = Modifier.testTag("Increment"),
-    enabled = monthState.currentMonth < monthState.maxMonth,
-    onClick = { monthState.currentMonth = monthState.currentMonth.plusMonths(1) }
+    enabled = monthState.currentWeek < monthState.maxWeek,
+    onClick = { monthState.currentWeek = monthState.currentWeek.inc() }
   ) {
     Image(
       imageVector = Icons.Default.KeyboardArrowRight,

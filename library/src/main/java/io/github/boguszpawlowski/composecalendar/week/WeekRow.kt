@@ -13,9 +13,9 @@ import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionState
 
 @Composable
-internal fun <T : SelectionState> WeekContent(
+internal fun <T : SelectionState> WeekRow(
   isFullScreen: Boolean,
-  week: Week,
+  weekDays: WeekDays,
   selectionState: T,
   modifier: Modifier = Modifier,
   dayContent: @Composable BoxScope.(DayState<T>) -> Unit,
@@ -29,9 +29,9 @@ internal fun <T : SelectionState> WeekContent(
       modifier
         .fillMaxSize()
     },
-    horizontalArrangement = if (week.isFirstWeekOfTheMonth) Arrangement.End else Arrangement.Start
+    horizontalArrangement = if (weekDays.isFirstWeekOfTheMonth) Arrangement.End else Arrangement.Start
   ) {
-    week.days.forEachIndexed { index, day ->
+    weekDays.days.forEachIndexed { index, day ->
       Box(
         modifier = Modifier.fillMaxWidth(1f / (7 - index))
       ) {

@@ -1,5 +1,5 @@
 import com.android.build.gradle.BaseExtension
-import org.gradle.api.JavaVersion.VERSION_1_8
+import org.gradle.api.JavaVersion.VERSION_17
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -18,8 +18,8 @@ class CommonAndroidPlugin : Plugin<Project> {
       }
 
       compileOptions {
-        sourceCompatibility = VERSION_1_8
-        targetCompatibility = VERSION_1_8
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
         isCoreLibraryDesugaringEnabled = false
       }
 

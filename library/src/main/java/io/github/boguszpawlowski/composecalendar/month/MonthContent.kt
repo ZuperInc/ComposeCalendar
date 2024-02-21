@@ -26,13 +26,12 @@ import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.header.MonthState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionState
-import io.github.boguszpawlowski.composecalendar.week.WeekContent
+import io.github.boguszpawlowski.composecalendar.week.WeekRow
 import io.github.boguszpawlowski.composecalendar.week.getWeeks
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
-
-internal const val DaysOfWeek = 7
+import org.threeten.bp.temporal.ChronoUnit
 
 @OptIn(ExperimentalSnapperApi::class)
 @Composable
@@ -46,14 +45,18 @@ internal fun <T : SelectionState> MonthPager(
   daysOfWeek: List<DayOfWeek>,
   today: LocalDate,
   modifier: Modifier = Modifier,
+  weekDaysScrollEnabled: Boolean = true,
   dayContent: @Composable BoxScope.(DayState<T>) -> Unit,
   weekHeader: @Composable BoxScope.(List<DayOfWeek>) -> Unit,
   monthContainer: @Composable (content: @Composable (PaddingValues) -> Unit) -> Unit,
 ) {
   val coroutineScope = rememberCoroutineScope()
 
+  val initialFirstVisibleItemIndex = remember(initialMonth, monthState.minMonth) {
+    ChronoUnit.MONTHS.between(monthState.minMonth, initialMonth).toInt()
+  }
   val listState = rememberLazyListState(
-    initialFirstVisibleItemIndex = StartIndex,
+    initialFirstVisibleItemIndex = initialFirstVisibleItemIndex,
   )
   val flingBehavior = rememberSnapperFlingBehavior(
     lazyListState = listState,
@@ -66,31 +69,49 @@ internal fun <T : SelectionState> MonthPager(
   val monthListState = remember {
     MonthListState(
       coroutineScope = coroutineScope,
-      initialMonth = initialMonth,
       monthState = monthState,
       listState = listState,
     )
   }
 
-  LazyRow(
-    modifier = modifier.testTag("MonthPager"),
-    state = listState,
-    flingBehavior = flingBehavior,
-    verticalAlignment = Alignment.Top,
-  ) {
-    items(PagerItemCount) { index ->
-      MonthContent(
-        isFullScreen = isFullScreen,
-        modifier = Modifier.fillParentMaxWidth(),
-        showAdjacentMonths = showAdjacentMonths,
-        selectionState = selectionState,
-        currentMonth = monthListState.getMonthForPage(index),
-        today = today,
-        daysOfWeek = daysOfWeek,
-        dayContent = dayContent,
-        weekHeader = weekHeader,
-        monthContainer = monthContainer
+  Column(modifier = Modifier.fillMaxWidth()) {
+    if (weekDaysScrollEnabled.not()) {
+      Box(
+        modifier = Modifier
+          .wrapContentHeight()
+          .fillMaxWidth(),
+        content = { weekHeader(daysOfWeek) },
       )
+    }
+    val pagerCount = remember(monthState.minMonth, monthState.maxMonth) {
+      ChronoUnit.MONTHS.between(monthState.minMonth, monthState.maxMonth).toInt() + 1
+    }
+    LazyRow(
+      modifier = modifier.testTag("MonthPager"),
+      state = listState,
+      flingBehavior = flingBehavior,
+      verticalAlignment = Alignment.Top,
+    ) {
+      items(
+        count = pagerCount,
+        key = { index ->
+          monthListState.getMonthForPage(index).let { "${it.year}-${it.monthValue}" }
+        }
+      ) { index ->
+        MonthContent(
+          isFullScreen = isFullScreen,
+          modifier = Modifier.fillParentMaxWidth(),
+          showAdjacentMonths = showAdjacentMonths,
+          selectionState = selectionState,
+          currentMonth = monthListState.getMonthForPage(index),
+          today = today,
+          weekDaysScrollEnabled = weekDaysScrollEnabled,
+          daysOfWeek = daysOfWeek,
+          dayContent = dayContent,
+          weekHeader = weekHeader,
+          monthContainer = monthContainer
+        )
+      }
     }
   }
 }
@@ -104,20 +125,22 @@ internal fun <T : SelectionState> MonthContent(
   daysOfWeek: List<DayOfWeek>,
   today: LocalDate,
   modifier: Modifier = Modifier,
+  weekDaysScrollEnabled: Boolean = true,
   dayContent: @Composable BoxScope.(DayState<T>) -> Unit,
   weekHeader: @Composable BoxScope.(List<DayOfWeek>) -> Unit,
   monthContainer: @Composable (content: @Composable (PaddingValues) -> Unit) -> Unit,
 ) {
   Column {
-    Box(
-      modifier = modifier
-        .wrapContentHeight(),
-      content = { weekHeader(daysOfWeek) },
-    )
-
+    if (weekDaysScrollEnabled) {
+      Box(
+        modifier = modifier
+          .wrapContentHeight(),
+        content = { weekHeader(daysOfWeek) },
+      )
+    }
     monthContainer { paddingValues ->
       Column(
-        modifier = if(!isFullScreen) {
+        modifier = if (!isFullScreen) {
           modifier.wrapContentWidth()
         } else {
           modifier.fillMaxHeight()
@@ -128,16 +151,16 @@ internal fun <T : SelectionState> MonthContent(
           firstDayOfTheWeek = daysOfWeek.first(),
           today = today,
         ).forEach { week ->
-          WeekContent(
+          WeekRow(
             isFullScreen = isFullScreen,
-            modifier = if(!isFullScreen) {
+            weekDays = week,
+            selectionState = selectionState,
+            dayContent = dayContent,
+            modifier = if (!isFullScreen) {
               Modifier
             } else {
               Modifier.weight(1f)
             },
-            week = week,
-            selectionState = selectionState,
-            dayContent = dayContent,
           )
         }
       }
@@ -146,7 +169,7 @@ internal fun <T : SelectionState> MonthContent(
 }
 
 @OptIn(ExperimentalSnapperApi::class)
-private val coerceSnapIndex: (SnapperLayoutInfo, startIndex: Int, targetIndex: Int) -> Int =
+internal val coerceSnapIndex: (SnapperLayoutInfo, startIndex: Int, targetIndex: Int) -> Int =
   { _, startIndex, targetIndex ->
     targetIndex
       .coerceIn(startIndex - 1, startIndex + 1)

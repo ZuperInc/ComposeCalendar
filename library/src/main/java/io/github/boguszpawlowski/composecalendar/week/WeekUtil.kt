@@ -6,13 +6,13 @@ import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
 
-private const val DaysInAWeek = 7
+internal const val DaysInAWeek = 7
 
 internal fun YearMonth.getWeeks(
   includeAdjacentMonths: Boolean,
   firstDayOfTheWeek: DayOfWeek,
   today: LocalDate = LocalDate.now(),
-): List<Week> {
+): List<WeekDays> {
   val daysLength = lengthOfMonth()
 
   val starOffset = atDay(1).dayOfWeek daysUntil firstDayOfTheWeek
@@ -20,7 +20,7 @@ internal fun YearMonth.getWeeks(
     DaysInAWeek - (atDay(daysLength).dayOfWeek daysUntil firstDayOfTheWeek) - 1
 
   return (1 - starOffset..daysLength + endOffset).chunked(DaysInAWeek).mapIndexed { index, days ->
-    Week(
+    WeekDays(
       isFirstWeekOfTheMonth = index == 0,
       days = days.mapNotNull { dayOfMonth ->
         val (date, isFromCurrentMonth) = when (dayOfMonth) {

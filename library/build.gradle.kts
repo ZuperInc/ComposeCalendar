@@ -9,13 +9,17 @@ plugins {
 group = "com.github.ZuperInc"
 
 android {
-
+  namespace = "com.boguszpawlowski.composecalendar"
   defaultConfig.versionCode = 106
   defaultConfig.versionName = "1.0.6"
 
   tasks.withType<KotlinCompile> {
     kotlinOptions {
-      freeCompilerArgs = freeCompilerArgs + "-Xexplicit-api=strict"
+      freeCompilerArgs = freeCompilerArgs + listOf(
+        "-Xexplicit-api=strict",
+        "-Xcontext-receivers"
+      )
+
     }
   }
 }

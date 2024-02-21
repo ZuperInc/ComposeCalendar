@@ -4,31 +4,38 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.setValue
 import org.threeten.bp.YearMonth
 
 @Suppress("FunctionName") // Factory function
 public fun MonthState(
   initialMonth: YearMonth,
-  previousMonth: YearMonth = initialMonth,
-): MonthState = MonthStateImpl(initialMonth, previousMonth)
+  minMonth: YearMonth,
+  maxMonth: YearMonth,
+): MonthState = MonthStateImpl(initialMonth, minMonth, maxMonth)
 
 @Stable
 public interface MonthState {
   public var currentMonth: YearMonth
-
-  public fun getPreviousMonth(): YearMonth
+  public var minMonth: YearMonth
+  public var maxMonth: YearMonth
 
   public companion object {
     @Suppress("FunctionName") // Factory function
-    public fun Saver(): Saver<MonthState, String> = Saver(
-      save = {
-        it.currentMonth.toString() + "##" + it.getPreviousMonth().toString()
+    public fun Saver(): Saver<MonthState, Any> = mapSaver(
+      save = { monthState ->
+        mapOf(
+          "currentMonth" to monthState.currentMonth.toString(),
+          "minMonth" to monthState.minMonth.toString(),
+          "maxMonth" to monthState.maxMonth.toString(),
+        )
       },
-      restore = {
+      restore = { restoreMap ->
         MonthState(
-          YearMonth.parse(it.split("##").first()),
-          YearMonth.parse(it.split("##").last())
+          YearMonth.parse(restoreMap["currentMonth"] as String),
+          YearMonth.parse(restoreMap["minMonth"] as String),
+          YearMonth.parse(restoreMap["maxMonth"] as String),
         )
       }
     )
@@ -38,21 +45,31 @@ public interface MonthState {
 @Stable
 private class MonthStateImpl(
   initialMonth: YearMonth,
-  previousMonth: YearMonth,
+  minMonth: YearMonth,
+  maxMonth: YearMonth,
 ) : MonthState {
 
-  private var _currentMonth by mutableStateOf<YearMonth>(initialMonth)
-
-  private var _previousMonth: YearMonth = previousMonth
+  private var _currentMonth by mutableStateOf(initialMonth)
+  private var _minMonth by mutableStateOf(minMonth)
+  private var _maxMonth by mutableStateOf(maxMonth)
 
   override var currentMonth: YearMonth
     get() = _currentMonth
     set(value) {
-      _previousMonth = currentMonth
       _currentMonth = value
     }
 
-  override fun getPreviousMonth(): YearMonth {
-    return _previousMonth
-  }
+  override var minMonth: YearMonth
+    get() = _minMonth
+    set(value) {
+      if (value > _maxMonth) return
+      _minMonth = value
+    }
+
+  override var maxMonth: YearMonth
+    get() = _maxMonth
+    set(value) {
+      if (value < _minMonth) return
+      _maxMonth = value
+    }
 }
