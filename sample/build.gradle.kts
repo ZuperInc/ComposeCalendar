@@ -9,6 +9,7 @@ plugins {
 //val commitsCount = Grgit.open(mapOf("dir" to rootDir)).log().size
 
 android {
+  namespace = "com.boguszpawlowski.composecalendar"
   defaultConfig {
     versionCode = 1
     versionName = "0.0.1"

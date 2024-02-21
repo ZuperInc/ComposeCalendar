@@ -16,12 +16,14 @@ Library is available on jitpack.
 
 ## Supported features
 - Selection (single, multiple or a range of days)
-- Every day as first day of week
+- Chose day as first day of week
 - Showing/hiding adjacent months
 - Month and week headers
 - Customizable month container
 - Fully customizable day content
 - Horizontal swipe for changing a current month
+- Month / Week mode
+- Min / Max Month (or Week) 
 
 ## Basic Usage
 Initialize the timezone information in your Application.onCreate() method
@@ -42,7 +44,15 @@ To show the basic version of the calendar, without any kind of selection mechani
 
 ```
 This chunk will render the calendar with default components for each day, and also month and week headers.
-See the `StaticCalendarSample` file for a full example.
+See the `StaticCalendarSample` file for a full example. For showing a week calendar, you can similarly use `StaticWeekCalendar`:
+```kotlin
+
+  @Composable
+  fun MainScreen() {
+    StaticWeekCalendar()
+  }
+
+```
 
 <img src="https://github.com/boguszpawlowski/ComposeCalendar/blob/main/blob/screenshot_1.jpg" width="260">
 
@@ -59,7 +69,16 @@ Calendar with a mechanism for selection. The default implementation uses `Dynami
 
 ```
 By the default, after changing the selection mode, selection is cleared.
-See the `SelectableCalendarSample` file for a full example
+See the `SelectableCalendarSample` file for a full example. For showing a week calendar, you can similarly use `SelectableWeekCalendar`:
+```kotlin
+
+  @Composable
+  fun MainScreen() {
+    SelectableWeekCalendar()
+  }
+
+```
+See the `WeekCalendarSample` file for a full example.
 
 https://user-images.githubusercontent.com/36514058/126049987-685a7b81-1596-48a4-95a1-c342f6c796bf.mp4
 
@@ -117,6 +136,10 @@ Apart from rendering your own components inside the calendar, you can modify it 
 - `showAdjacentMonths` - whenever to render days from adjacent months. Defaults to `true`.
 - `firstDayOfWeek` - you can pass the `DayOfWeek` which you want you week to start with. It defaults to the first day of week of the `Locale.default()`.
 - `horizontalScrollEnabled` - a Boolean flag which enables month to be changed by a horizontal swipe. Defaults to `true`.
+- `minMonth` - a `YearMonth` object representing the minimum month that can be shown in the calendar. By default there is no minimum month.
+- `maxMonth` - a `YearMonth` object representing the maximum month that can be shown in the calendar. By default there is no maximum month.
+
+> :exclamation: You cannot set `minMonth` to be lower than `maxMonth` and vice versa. If you do so, the calendar state won't change.
 
 Apart from this, `Calendar` you can pass a `Modifier` object like in any other composable.
 
@@ -137,7 +160,7 @@ Initial state for the static calendar is provided by the `rememberCalendarState(
   fun MainScreen() {
     StaticCalendar(
       calendarState = rememberCalendarState(
-        initialDate = YearMonth.now().plusYears(1),
+        initialMonth = YearMonth.now().plusYears(1),
       )
     )
   }
@@ -151,7 +174,7 @@ In case of the selectable calendar, the state has additional parameters, used to
   fun MainScreen() {
     SelectableCalendar(
       calendarState = rememberSelectableCalendarState(
-        initialDate = YearMonth.now().plusYears(1),
+        initialMonth = YearMonth.now().plusYears(1),
         initialSelection = listOf(LocalDate.parse("20-01-2020")),
         initialSelectionMode = SelectionMode.Period,
       )
@@ -172,7 +195,7 @@ you need to hoist the state out of the `Calendar` composable:
     StaticCalendar(calendarState = calendarState)
    
     // now you can manipulate the state from scope of this composable
-    calendarState.monthState.currentMonth = MonthYear.of(2020, 5)
+    calendarState.monthState.currentMonth = YearMonth.of(2020, 5)
   }
 
 ```
@@ -186,9 +209,8 @@ Selection modes are represented by `SelectionMode` enum, with following values:
 - `Period` - selectable period - implemented by `start` and `end` dates. - selection will contain all dates between start and the end date.
 This implementation of SelectionState also allows for handling side-effects and vetoing the state change via `confirmSelectionChange` callback.
 
-## KotlinX DateTime
-As the core of the library is built on `java.time` library, on Android it requires to use [core libary desugaring](https://developer.android.com/studio/write/java8-support) to be able to access it's API.
-As a result it's features may be unavailable to some project built around different date-time libraries (e.g. kotlinx-datetime). Although the project wont be migrating from `java.time`, as it's the best suited for it, there is a separate `kotlinx-datetime` artifact for those who need to use the library from a codebase based on it. It doesn't consist of a separate version of `ComposeCalendar` features, but offers a small bunch of utilities, that will enable you to create your own wrapper, as briefly presented in `KotlinDateTimeSample`. If the provided functionality, doesn't match your use-case, please submit an issue.
+## Week Calendar
+Apart from the default calendar, there is also a week calendar, which shows a single week at a time. It can be used in the same way as the default calendar, and has the same customization options.
 
 ## License
 

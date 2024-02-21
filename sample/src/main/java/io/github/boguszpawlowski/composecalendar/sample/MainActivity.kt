@@ -23,16 +23,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import io.github.boguszpawlowski.composecalendar.BuildConfig
-import timber.log.Timber
-import timber.log.Timber.DebugTree
 
 class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    if (BuildConfig.DEBUG) {
-      Timber.plant(DebugTree())
-    }
     setContent {
       MainScreen()
     }
@@ -52,11 +46,13 @@ fun MainScreen() {
       NavHost(navController = navController, startDestination = "main") {
         composable("main") { MainMenu(navController = navController) }
         composable("static") { StaticCalendarSample() }
+        composable("week") { WeekCalendarSample() }
         composable("selection") { SelectableCalendarSample() }
         composable("components") { CustomComponentsSample() }
         composable("custom_selection") { CustomSelectionSample() }
         composable("viewmodel") { ViewModelSample() }
 //        composable("kotlinx_datetime") { KotlinXDateTimeSample() }
+        composable("min_max_month") { MinMaxCalendarSample() }
       }
     }
   }
@@ -79,6 +75,11 @@ fun MainMenu(navController: NavController) {
     }
     Spacer(modifier = Modifier.height(16.dp))
 
+    Button(onClick = { navController.navigate("week") }) {
+      Text(text = "Week Calendar")
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+
     Button(onClick = { navController.navigate("components") }) {
       Text(text = "Custom Components")
     }
@@ -96,6 +97,11 @@ fun MainMenu(navController: NavController) {
 
     Button(onClick = { navController.navigate("kotlinx_datetime") }) {
       Text(text = "Kotlinx DateTime")
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Button(onClick = { navController.navigate("min_max_month") }) {
+      Text(text = "Min Max Month")
     }
   }
 }
